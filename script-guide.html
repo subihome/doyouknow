@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대본 작성 가이드 - 3대 함정 탈출법</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000;
+            --secondary: #666;
+            --accent: #0066FF;
+            --bg: #FAFAFA;
+            --card: #FFF;
+            --border: #E5E5E5;
+            --danger: #FF3B30;
+            --success: #34C759;
+            --warning: #FF9500;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+            background: var(--bg);
+            color: var(--primary);
+            line-height: 1.8;
+            font-size: 17px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        /* Hero */
+        .hero {
+            margin-top: 80px;
+            padding: 100px 30px 80px;
+            text-align: center;
+            background: var(--card);
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: clamp(18px, 3vw, 24px);
+            color: var(--secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 30px;
+        }
+
+        /* Section */
+        .section {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 60px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .section h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            letter-spacing: -0.02em;
+        }
+
+        .section h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 50px 0 20px;
+            letter-spacing: -0.01em;
+        }
+
+        .section p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .stat-card h3 {
+            font-size: 48px;
+            font-weight: 900;
+            margin: 0 0 12px 0;
+            color: var(--accent);
+        }
+
+        .stat-card p {
+            font-size: 16px;
+            color: var(--secondary);
+            margin: 0;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: #F5F5F7;
+            border-radius: 16px;
+            padding: 32px;
+            margin: 30px 0;
+            font-size: 17px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            border-left: 4px solid var(--secondary);
+        }
+
+        .code-block.fail {
+            background: #FFF5F5;
+            border-left-color: var(--danger);
+        }
+
+        .code-block.success {
+            background: #F0FDF4;
+            border-left-color: var(--success);
+        }
+
+        .code-label {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .code-label.fail {
+            background: var(--danger);
+            color: white;
+        }
+
+        .code-label.success {
+            background: var(--success);
+            color: white;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 30px 0;
+            border: 1px solid var(--border);
+        }
+
+        .info-box.fail {
+            background: #FFF5F5;
+            border-color: #FFE5E5;
+        }
+
+        .info-box.success {
+            background: #F0FDF4;
+            border-color: #D1FAE5;
+        }
+
+        .info-box strong {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .info-box ul {
+            margin: 12px 0 0 20px;
+        }
+
+        .info-box li {
+            margin: 8px 0;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 30px 0;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        th {
+            padding: 20px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 16px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr:hover {
+            background: var(--bg);
+        }
+
+        tr.fail {
+            background: #FFF5F5;
+        }
+
+        tr.success {
+            background: #F0FDF4;
+        }
+
+        /* Checklist */
+        .checklist {
+            background: var(--bg);
+            border-radius: 16px;
+            padding: 36px;
+            margin: 30px 0;
+            border: 1px solid var(--border);
+        }
+
+        .checklist h4 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .check-item {
+            background: white;
+            padding: 20px 24px;
+            margin: 12px 0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .check-item:hover {
+            border-color: var(--accent);
+        }
+
+        .check-item.checked {
+            background: var(--accent);
+            color: white;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .check-item.checked .checkbox {
+            background: white;
+            border-color: white;
+        }
+
+        .check-item.checked .checkbox::after {
+            content: '✓';
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Comparison */
+        .comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin: 30px 0;
+        }
+
+        .comparison-card {
+            border-radius: 16px;
+            padding: 32px;
+            border: 2px solid;
+        }
+
+        .comparison-card.fail {
+            background: #FFF5F5;
+            border-color: var(--danger);
+        }
+
+        .comparison-card.success {
+            background: #F0FDF4;
+            border-color: var(--success);
+        }
+
+        .comparison-card h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 700;
+            margin: 0 4px;
+        }
+
+        .badge-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        /* Highlight */
+        .highlight {
+            background: #FFEB3B;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 80px 30px;
+            margin-top: 80px;
+        }
+
+        .footer h3 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .footer p {
+            font-size: 18px;
+            opacity: 0.8;
+            margin-bottom: 32px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section {
+                padding: 40px 24px;
+            }
+
+            .hero {
+                padding: 80px 24px 60px;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px;
+            }
+
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Typography Enhancement */
+        strong {
+            font-weight: 700;
+        }
+
+        em {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 60px 0;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            background: var(--primary);
+            color: white;
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .cta-box h3 {
+            font-size: 28px;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .cta-box p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin: 0;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-title">대본 작성 가이드</div>
+            <a href="index.html" class="nav-btn">← 분석 페이지</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>대본 3대 함정<br>탈출법</h1>
+        <p>오버·공감실패·장황함을 피하는 실전 가이드</p>
+    </div>
+
+    <div class="container">
+        <!-- Overview -->
+        <div class="section">
+            <h2>왜 대본에서 망가질까?</h2>
+            <p>좋은 아이디어도 대본에서 망가지는 경우가 90%입니다. 특히 초보자가 빠지는 3가지 함정만 피하면, 조회수가 10배 이상 차이납니다.</p>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>87%</h3>
+                    <p>불필요한 내용 삭제 시<br>조회수 증가율</p>
+                </div>
+                <div class="stat-card">
+                    <h3>70%</h3>
+                    <p>공감 유도 시<br>클릭률 증가</p>
+                </div>
+                <div class="stat-card">
+                    <h3>150자</h3>
+                    <p>쇼츠 최적<br>대본 길이</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trap 1 -->
+        <div class="section">
+            <h2>함정 1. 오버</h2>
+            <p>과장된 표현은 신뢰를 떨어뜨립니다. "인생이 바뀌었어요"보다 "생각보다 괜찮네요"가 더 효과적입니다.</p>
+
+            <h3>실패 사례</h3>
+            <div class="code-block fail">
+<span class="code-label fail">❌ 신뢰도 0%</span>
+이거 쓰고 인생이 완전히 바뀌었어요!
+아침에 일어나는 게 이렇게 행복할 수가 없고
+온 가족이 감동해서 눈물 흘렸고
+이웃집에서도 어디서 샀냐고 난리났어요</div>
+
+            <div class="info-box fail">
+                <strong>왜 실패했을까?</strong>
+                <ul>
+                    <li>"인생이 바뀜" - 과장 99%</li>
+                    <li>"온 가족이 눈물" - 비현실적</li>
+                    <li>"이웃집 난리" - 극단적 표현</li>
+                </ul>
+            </div>
+
+            <h3>성공 사례</h3>
+            <div class="code-block success">
+<span class="code-label success">✅ 자연스러움</span>
+이거 하나 있으면 겨울에도 운동 걱정 없겠네!</div>
+
+            <div class="info-box success">
+                <strong>왜 성공했을까?</strong>
+                <ul>
+                    <li>단 한 문장 - 간결함</li>
+                    <li>구체적 상황 - 현실적</li>
+                    <li>"~하겠네" 추측형 - 자연스러움</li>
+                </ul>
+            </div>
+
+            <h3>오버 방지 3원칙</h3>
+            <div class="info-box">
+                <strong>1. 감정 대신 상황을 말해라</strong>
+                <p><span class="badge badge-danger">❌</span> "너무너무 좋아서 행복해요!"</p>
+                <p><span class="badge badge-success">✅</span> "아침에 샴푸병 안 쓰러지네"</p>
+            </div>
+
+            <div class="info-box">
+                <strong>2. 추상어 대신 구체어를 써라</strong>
+                <p><span class="badge badge-danger">❌</span> "삶의 질이 완전히 달라졌어요"</p>
+                <p><span class="badge badge-success">✅</span> "아침에 5분 더 자게 됐어"</p>
+            </div>
+
+            <div class="info-box">
+                <strong>3. 확정 대신 추측형을 써라</strong>
+                <p><span class="badge badge-danger">❌</span> "이거 없으면 절대 못 살아요"</p>
+                <p><span class="badge badge-success">✅</span> "이거 한번 쓰면 못 돌아갈걸요?"</p>
+            </div>
+
+            <h3>오버도 측정표</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>표현</th>
+                        <th>오버도</th>
+                        <th>대체 표현</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="fail">
+                        <td>"인생이 바뀜"</td>
+                        <td>🔴 99%</td>
+                        <td>"이거 한번 쓰면 못 돌아가"</td>
+                    </tr>
+                    <tr class="fail">
+                        <td>"완전 대박"</td>
+                        <td>🔴 95%</td>
+                        <td>"생각보다 괜찮네"</td>
+                    </tr>
+                    <tr>
+                        <td>"절대 못 돌아가"</td>
+                        <td>🟡 30%</td>
+                        <td>허용 범위</td>
+                    </tr>
+                    <tr class="success">
+                        <td>"~하겠네"</td>
+                        <td>🟢 10%</td>
+                        <td>최적</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Trap 2 -->
+        <div class="section">
+            <h2>함정 2. 공감 실패</h2>
+            <p>특수한 내 경험보다 보편적인 문제가 공감을 얻습니다. "해외여행 갔다가"보다 "집에서 쓰다가"가 70% 더 많은 사람에게 닿습니다.</p>
+
+            <div class="comparison">
+                <div class="comparison-card fail">
+                    <h4>❌ 공감 15%</h4>
+                    <div class="code-block fail">
+해외여행 갔다가 호텔에서 이거 보고 충격받았어요
+미슐랭 셰프가 추천한 프리미엄 제품인데
+이탈리아 장인이 손수 만든 거라서...</div>
+                </div>
+
+                <div class="comparison-card success">
+                    <h4>✅ 공감 80%</h4>
+                    <div class="code-block success">
+패딩 벗어서 바닥에 두는 거 나만 그런 줄 알았는데...</div>
+                </div>
+            </div>
+
+            <h3>공감 확보 3원칙</h3>
+            <div class="info-box">
+                <strong>1. 내 경험 → 너의 문제</strong>
+                <p><span class="badge badge-danger">❌</span> "나는 이렇게 해서 해결했어"</p>
+                <p><span class="badge badge-success">✅</span> "너도 이런 문제 겪지?"</p>
+            </div>
+
+            <div class="info-box">
+                <strong>2. 특수 상황 → 보편 상황</strong>
+                <p><span class="badge badge-danger">❌</span> "해외여행 갔다가"</p>
+                <p><span class="badge badge-success">✅</span> "집에서 쓰다가"</p>
+            </div>
+
+            <div class="info-box">
+                <strong>3. 과거 경험 → 현재 문제</strong>
+                <p><span class="badge badge-danger">❌</span> "작년에 친구가 알려줬는데"</p>
+                <p><span class="badge badge-success">✅</span> "요즘 이거 때문에 불편하지 않아?"</p>
+            </div>
+
+            <div class="cta-box">
+                <h3>"나만 그래?" 패턴의 힘</h3>
+                <p>두유노홈디노가 자주 쓰는 마법의 패턴입니다.<br>시청자가 "나도!"라고 반응하며 즉시 몰입합니다.</p>
+            </div>
+        </div>
+
+        <!-- Trap 3 -->
+        <div class="section">
+            <h2>함정 3. 장황함</h2>
+            <p>180자를 24자로 줄이면 조회수가 7배 증가합니다. 이유 설명을 빼고 결과만 말하세요.</p>
+
+            <div class="comparison">
+                <div class="comparison-card fail">
+                    <h4>❌ 180자, 9문장</h4>
+                    <div class="code-block fail">
+제가 요즘에 차를 운전하면서 느낀 건데요
+핸드폰이랑 네비를 연결할 때마다
+케이블을 꽂아야 하잖아요
+그게 생각보다 정말 불편하더라구요
+왜냐하면 케이블이 자꾸 꼬이기도 하고...</div>
+                </div>
+
+                <div class="comparison-card success">
+                    <h4>✅ 24자, 2문장</h4>
+                    <div class="code-block success">
+이거 하나만 꽂으면
+핸드폰이랑 네비가 자동으로 연결되요</div>
+                </div>
+            </div>
+
+            <h3>간결함 3원칙</h3>
+            <div class="info-box">
+                <strong>1. 한 문장 = 한 메시지</strong>
+                <p>여러 내용을 한 문장에 욱여넣지 마세요.</p>
+            </div>
+
+            <div class="info-box">
+                <strong>2. 이유 설명 금지</strong>
+                <p>"왜냐하면", "그 이유는" 같은 설명을 빼세요.</p>
+            </div>
+
+            <div class="info-box">
+                <strong>3. 접속사 최소화</strong>
+                <p>"그래서", "그런데", "또한" 같은 접속사를 줄이세요.</p>
+            </div>
+
+            <h3>길이 기준표 (쇼츠 30초)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>구간</th>
+                        <th>최대 길이</th>
+                        <th>역할</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="success">
+                        <td>첫 3초</td>
+                        <td>1문장 (10자)</td>
+                        <td>핵심만</td>
+                    </tr>
+                    <tr class="success">
+                        <td>0-10초</td>
+                        <td>2-3문장 (50자)</td>
+                        <td>문제+해결</td>
+                    </tr>
+                    <tr class="success">
+                        <td>10-20초</td>
+                        <td>3-4문장 (100자)</td>
+                        <td>상세+증거</td>
+                    </tr>
+                    <tr class="success">
+                        <td>20-30초</td>
+                        <td>2문장 (30자)</td>
+                        <td>만족+CTA</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Before After -->
+        <div class="section">
+            <h2>실전 변환 예시</h2>
+            
+            <h3>청소 비누 대본</h3>
+            <div class="comparison">
+                <div class="comparison-card fail">
+                    <h4>❌ 초보자 버전 (180자)</h4>
+                    <div class="code-block fail">
+저는 집 청소할 때마다 정말 스트레스를 많이 받았어요. 작년에 엄마 집에 갔다가 우연히 발견한 건데요. 그동안 여러 세제를 써봤지만 효과가 없었거든요...</div>
+                    <ul style="margin-top: 16px; font-size: 15px;">
+                        <li>오버: 4곳</li>
+                        <li>공감 실패: 2곳</li>
+                        <li>장황함: 3곳</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card success">
+                    <h4>✅ 두유노홈디노 버전 (24자)</h4>
+                    <div class="code-block success">
+찌든때 다들 어떻게 지우나 했더니
+이 비누가 비법이었네</div>
+                    <ul style="margin-top: 16px; font-size: 15px;">
+                        <li>오버: 0곳</li>
+                        <li>공감: "다들 어떻게"</li>
+                        <li>87% 삭제!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checklist -->
+        <div class="section">
+            <h2>대본 제출 전 체크리스트</h2>
+            <p>15개 항목 중 13개 이상 체크되면 바로 업로드 가능합니다.</p>
+
+            <div class="checklist">
+                <h4>🔴 오버 방지 (5문항)</h4>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>감정 표현이 2개 이하인가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>"인생/완전/절대" 단어가 1개 이하인가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>추측형 어미를 썼는가? (~하겠네, ~할걸요)</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>구체적 상황을 말했는가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>3자가 읽어도 광고 느낌이 안 드는가?</div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h4>💚 공감 확보 (5문항)</h4>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>첫 문장이 보편적 경험인가? (70% 이상)</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>"나만 그래?" 류 공감 유도 문구가 있는가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>내 특수 경험을 말하지 않았는가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>타겟이 명확히 떠오르는가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>첫 3초에 "어? 나도!" 반응이 나올까?</div>
+                </div>
+            </div>
+
+            <div class="checklist">
+                <h4>🔵 간결함 (5문항)</h4>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>총 글자 수가 150자 이하인가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>문장 수가 8개 이하인가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>접속사가 2개 이하인가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>이유 설명을 하지 않았는가?</div>
+                </div>
+                <div class="check-item">
+                    <div class="checkbox"></div>
+                    <div>한 문장이 20자 이내인가?</div>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 32px;">
+                <strong>점수 계산</strong>
+                <p>✅ 13개 이상: 바로 업로드!</p>
+                <p>⚠️ 10-12개: 미세 조정 후 업로드</p>
+                <p>🔴 9개 이하: 재작성 권장</p>
+            </div>
+        </div>
+
+        <!-- Emergency -->
+        <div class="section">
+            <h2>응급 처방전</h2>
+
+            <div class="info-box">
+                <strong>증상 1: 조회수는 있는데 이탈률 높음</strong>
+                <p>진단: 오버 또는 장황함</p>
+                <p>처방: 감정 표현 50% 삭제 + 문장 수 절반으로</p>
+            </div>
+
+            <div class="info-box">
+                <strong>증상 2: 조회수 자체가 안 나옴</strong>
+                <p>진단: 공감 실패 (타겟 불명확)</p>
+                <p>처방: 첫 문장을 "나만 그래?" 패턴으로 교체</p>
+            </div>
+
+            <div class="info-box">
+                <strong>증상 3: 댓글이 "광고 같다"</strong>
+                <p>진단: 오버 (과장 표현 과다)</p>
+                <p>처방: 확정형 → 추측형 (~하겠네, ~할걸요)</p>
+            </div>
+        </div>
+
+        <!-- Golden Rule -->
+        <div class="section">
+            <h2>3대 함정 방지 골든 룰</h2>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>1</h3>
+                    <p><strong>오버 방지</strong><br>감정 대신 상황<br>확정 대신 추측</p>
+                </div>
+                <div class="stat-card">
+                    <h3>2</h3>
+                    <p><strong>공감 확보</strong><br>내 경험 대신 너의 문제<br>특수 대신 보편</p>
+                </div>
+                <div class="stat-card">
+                    <h3>3</h3>
+                    <p><strong>간결함</strong><br>한 문장 = 한 메시지<br>이유 금지, 150자</p>
+                </div>
+            </div>
+
+            <div class="cta-box">
+                <h3>이 3가지만 지키면</h3>
+                <p>조회수가 10배 이상 차이납니다</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <h3>이 가이드가 도움이 되셨나요?</h3>
+        <p>대본 작성할 때마다 체크리스트를 확인하세요</p>
+        <a href="index.html" class="nav-btn">← 분석 페이지로 돌아가기</a>
+    </div>
+
+    <script>
+        // Checklist Interactive
+        document.querySelectorAll('.check-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.classList.toggle('checked');
+            });
+        });
+
+        // Smooth Scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
