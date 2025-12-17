@@ -65,6 +65,45 @@
             animation: fadeInUp 0.8s ease-out 0.2s backwards;
         }
 
+        .hero-nav {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+            animation: fadeInUp 0.8s ease-out 0.4s backwards;
+        }
+
+        .hero-btn {
+            background: white;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .hero-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .hero-btn.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .hero-btn.secondary:hover {
+            background: white;
+            color: black;
+        }
+
         .scroll-indicator {
             position: absolute;
             bottom: 40px;
@@ -659,6 +698,10 @@
     <div class="hero">
         <div class="hero-title">두유노홈디노 완벽 분석 ✨</div>
         <div class="hero-subtitle">조회수 5천 → 60만 성공 공식 해부</div>
+        <div class="hero-nav">
+            <a href="#overview" class="hero-btn">분석 보기</a>
+            <a href="script-guide.html" class="hero-btn secondary">📝 대본 작성 가이드</a>
+        </div>
         <div class="scroll-indicator">↓</div>
     </div>
 
